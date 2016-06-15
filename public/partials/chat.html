@@ -33,7 +33,7 @@
 										<li ng-repeat='text in messages | filter : filterText'>
 											<div class="message_gutter">
 												<div class="icon">
-													<span>{{text.firstLetter}}</span>
+													<span>{{text.username}}</span>
 												</div>
 											</div>
 											<div class="message_content">
@@ -73,6 +73,14 @@
 		<script type="text/javascript" src ="../client.js"></script>
 		<script type="text/javascript" src ="../js/baron.js"></script>
 		<script>
+			$(document).ready(function () {
+				var height = $(window).height() - ($('.header').outerHeight(true) + $('.footer').outerHeight(true));
+				$('.clipper').height(height-20);
+			});
+			$(window).resize(function () {
+				var height = $(window).height() - ($('.header').outerHeight(true) + $('.footer').outerHeight(true));
+				$('.clipper').height(height-20);
+			});
 			window.onload = function() {
 				baron({
 					root: '.clipper',
