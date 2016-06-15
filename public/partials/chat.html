@@ -3,26 +3,99 @@
 		<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js'></script>
 		<title>Chat App</title>
 	</head>
-	
-	<body ng-app="myApp">
-		<h1>Chat App</h1>
-		<div ng-controller='ChatCtrl'>
-			<input type="text" ng-model='userName' placeholder='Enter a username'>
-			<br>
-			<input type="text" ng-enter='sendMessage()' ng-model='message' placeholder='Enter your message here' size='50'></input>
-			<br>
-			<button size='100' ng-click='sendMessage()'>Submit</button>
-			<br>
-			<p>Filter Messages:
-			<input type="text" ng-model='filterText'>
-			<ul>
-				<li ng-repeat='text in messages | filter : filterText'>
-					<p>{{text.username}} - {{text.message}}</p>
-				</li>
-			</ul>
 
+	<body ng-app="myApp" ng-controller='ChatCtrl'>
+
+		<div class="header">
+			<div class="col-lg-1">
+				<div ng-controller="logoutController">
+					<a ng-click='logout()' class="btn btn-primary">Logout</a>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<h1>{{userName}}</h1>
+			</div>
+			<div class="col-lg-9 text-right">
+				<div class="header_search">
+					<input type="text" ng-model='filterText' placeholder="Search">
+					<i class="fa fa-search"></i>
+				</div>
+			</div>
 		</div>
+		<div class="wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="clipper _simple">
+							<div class='scroller'>
+								<div class="client_body">
+									<ul>
+										<li ng-repeat='text in messages | filter : filterText'>
+											<div class="message_gutter">
+												<div class="icon">
+													<span>{{text.username}}</span>
+												</div>
+											</div>
+											<div class="message_content">
+												<span class="message_sender">
+													{{text.username}}
+												</span>
+												<span class="message_body">
+													{{text.message}}
+												</span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="scroller_track">
+								<div class="scroller_control scroller_up">^</div>
+								<div class="scroller_free">
+									<div class="scroller_bar"></div>
+								</div>
+								<div class="scroller_control scroller_down">Ў</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				<div class="message_input">
+					<button ng-click='sendMessage()'>
+						<i class="fa fa-plus"></i>
+					</button>
+					<input type="text" ng-enter='sendMessage()' ng-model='message' placeholder='Enter your message here' onfocusout="removeClass();" onfocus="addClass();"></input>
+				</div>
+			</div>
+		</div>
+
 		<script type='text/javascript' src='/socket.io/socket.io.js'></script>
 		<script type="text/javascript" src ="../client.js"></script>
+		<script type="text/javascript" src ="../js/baron.js"></script>
+		<script>
+			$(document).ready(function () {
+				var height = $(window).height() - ($('.header').outerHeight(true) + $('.footer').outerHeight(true));
+				$('.clipper').height(height-20);
+			});
+			$(window).resize(function () {
+				var height = $(window).height() - ($('.header').outerHeight(true) + $('.footer').outerHeight(true));
+				$('.clipper').height(height-20);
+			});
+			window.onload = function() {
+				baron({
+					root: '.clipper',
+					scroller: '.scroller',
+					bar: '.scroller_bar',
+					scrollingCls: '_scrolling',
+					draggingCls: '_dragging'
+				});
+			};
+			function addClass() {
+				$('.message_input').addClass('focus');
+			}
+			function removeClass() {
+				$('.message_input').removeClass('focus');
+			}
+		</script>
 	</body>
 </html>
