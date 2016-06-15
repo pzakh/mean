@@ -36,13 +36,14 @@ app.controller('ChatCtrl', ['$scope', 'MessageCreator', function ($scope, Messag
 
 	//recieve new messages from chat
 	socket.on('receiveMessage', function (data) {
-		$scope.messages.unshift(data);
+		$scope.messages.push(data);
 		$scope.$apply();
 	});
 
 	//load previous messages from chat
 	socket.on('pastMessages', function (data) {
-		$scope.messages = data.reverse();
+
+		$scope.messages = data;
 		$scope.$apply();
 	});
 

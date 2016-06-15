@@ -83,12 +83,12 @@ angular.module('myApp').controller('ChatCtrl',
                 $scope.userName = data.username;
             });
     socket.on('receiveMessage', function (data) {
-        $scope.messages.unshift(data);
+        $scope.messages.push(data);
         $scope.$apply();
     });
 
     socket.on('pastMessages', function (data) {
-        $scope.messages = data.reverse();
+        $scope.messages = data;
         $scope.$apply();
 
     });
@@ -99,8 +99,8 @@ angular.module('myApp').controller('ChatCtrl',
         }
         if (!$scope.message == '') {
             var chatMessage = {
-                'username' : $scope.userName,
-                'message' : $scope.message
+                'username': $scope.userName,
+                'message': $scope.message
             };
             MessageCreator.postMessage(chatMessage, function (result, error) {
                 if (error) {
