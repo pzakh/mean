@@ -85,12 +85,25 @@ angular.module('myApp').controller('ChatCtrl',
     socket.on('receiveMessage', function (data) {
         $scope.messages.push(data);
         $scope.$apply();
+
+        angular.element(document).ready(function () {
+            $(document).scrollTop($(document).height());
+        });
     });
 
     socket.on('pastMessages', function (data) {
         $scope.messages = data;
         $scope.$apply();
 
+        angular.element(document).ready(function () {
+            $(document).scrollTop($(document).height());
+
+            $('.direct-chat-msg').each(function(index) {
+                if ($(this).find('.direct-chat-name').text() != $('.username').text()) {
+                    $(this).addClass('right');
+                }
+            });
+        });
     });
     $scope.sendMessage = function () {
         if ($scope.userName == '') {

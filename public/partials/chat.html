@@ -1,101 +1,70 @@
 <html>
-	<head>
-		<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js'></script>
-		<title>Chat App</title>
-	</head>
+<head>
 
-	<body ng-app="myApp" ng-controller='ChatCtrl'>
+	<title>Chat App</title>
+</head>
 
-		<div class="header">
-			<div class="col-lg-1">
-				<div ng-controller="logoutController">
-					<a ng-click='logout()' class="btn btn-primary">Logout</a>
-				</div>
+<body ng-app="myApp" ng-controller='ChatCtrl'>
+	<div class="box box-primary direct-chat direct-chat-primary">
+		<div class="box-header with-border">
+			<div ng-controller="logoutController">
+				<button type="button" ng-click='logout()' class="btn btn-box-tool btn-default">Logout</button>
+
+				<h3 class="box-title username">{{userName}}</h3>
 			</div>
-			<div class="col-lg-2">
-				<h1>{{userName}}</h1>
-			</div>
-			<div class="col-lg-9 text-right">
+
+			<div class="box-tools pull-right">
 				<div class="header_search">
 					<input type="text" ng-model='filterText' placeholder="Search">
 					<i class="fa fa-search"></i>
 				</div>
 			</div>
 		</div>
-		<div class="wrapper">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="clipper _simple">
-							<div class='scroller'>
-								<div class="client_body">
-									<ul>
-										<li ng-repeat='text in messages | filter : filterText'>
-											<div class="message_gutter">
-												<div class="icon">
-													<span>{{text.username}}</span>
-												</div>
-											</div>
-											<div class="message_content">
-												<span class="message_sender">
-													{{text.username}}
-												</span>
-												<span class="message_body">
-													{{text.message}}
-												</span>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</div>
-							<div class="scroller_track">
-								<div class="scroller_control scroller_up">^</div>
-								<div class="scroller_free">
-									<div class="scroller_bar"></div>
-								</div>
-								<div class="scroller_control scroller_down">Ў</div>
-							</div>
-						</div>
+
+		<div class="box-body">
+			<div class="direct-chat-messages">
+				<div class="direct-chat-msg" ng-repeat='text in messages | filter : filterText'>
+					<div class="direct-chat-info clearfix">
+						<span class="direct-chat-name">{{text.username}}</span>
+						<span class="direct-chat-timestamp">22.12.2017 15:45</span>
 					</div>
-				</div>
-			</div>
-			<div class="footer">
-				<div class="message_input">
-					<button ng-click='sendMessage()'>
-						<i class="fa fa-plus"></i>
-					</button>
-					<input type="text" ng-enter='sendMessage()' ng-model='message' placeholder='Enter your message here' onfocusout="removeClass();" onfocus="addClass();"></input>
+
+					<span class="direct-chat-img icon">
+						<span>{{text.username}}</span>
+					</span>
+
+
+					<div class="direct-chat-text">
+						{{text.message}}
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<script type='text/javascript' src='/socket.io/socket.io.js'></script>
-		<script type="text/javascript" src ="../client.js"></script>
-		<script type="text/javascript" src ="../js/baron.js"></script>
-		<script>
-			$(document).ready(function () {
-				var height = $(window).height() - ($('.header').outerHeight(true) + $('.footer').outerHeight(true));
-				$('.clipper').height(height-20);
+		<div class="box-footer">
+			<div class="input-group">
+				<input type="text" class="form-control input-send" ng-enter='sendMessage()' ng-model='message' placeholder='Enter your message here'/>
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-warning btn-flat send" ng-click='sendMessage()'>Send</button>
+					</span>
+			</div>
+		</div>
+	</div>
+
+<script type='text/javascript' src='/socket.io/socket.io.js'></script>
+<script type="text/javascript" src ="../client.js"></script>
+<script>
+	$(function() {
+		$('.input-send').on('focus', function() {
+			$(this).on('keypress', function(e) {
+				if (e.keyCode == 13) {
+					$('.send').click();
+				}
 			});
-			$(window).resize(function () {
-				var height = $(window).height() - ($('.header').outerHeight(true) + $('.footer').outerHeight(true));
-				$('.clipper').height(height-20);
-			});
-			window.onload = function() {
-				baron({
-					root: '.clipper',
-					scroller: '.scroller',
-					bar: '.scroller_bar',
-					scrollingCls: '_scrolling',
-					draggingCls: '_dragging'
-				});
-			};
-			function addClass() {
-				$('.message_input').addClass('focus');
-			}
-			function removeClass() {
-				$('.message_input').removeClass('focus');
-			}
-		</script>
-	</body>
+		});
+
+		$(document).scrollTop($(document).height());
+	})
+</script>
+</body>
 </html>
