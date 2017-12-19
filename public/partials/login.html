@@ -1,22 +1,30 @@
-<div class="col-md-4">
-    <h1>Login</h1>
-    <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
-    <form class="form" ng-submit="login()">
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" class="form-control" name="username" ng-model="loginForm.username" required>
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password" ng-model="loginForm.password" required>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-default" ng-disabled="disabled">Login</button>
+<div class="login-box">
+    <div class="login-logo">
+        <b>The world around us</b>
+    </div>
 
-        </div>
-    </form>
+    <div class="login-box-body">
+        <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
 
-</div>
-<div class="col-md-4">
-    <button ng-click="registration()" class="btn btn-primary">Registration</button>
+        <form class="form" ng-submit="login()">
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" name="username" placeholder="Username" ng-model="loginForm.username" required>
+                <i class="glyphicon glyphicon-envelope form-control-feedback"></i>
+            </div>
+
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" name="password" placeholder="Password" ng-model="loginForm.password" required>
+                <i class="glyphicon glyphicon-lock form-control-feedback"></i>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-8">
+                    <button ng-click="registration()" class="btn btn-primary btn-block btn-flat">Registration</button>
+                </div>
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-success btn-block btn-flat" ng-disabled="disabled">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
